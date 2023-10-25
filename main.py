@@ -94,25 +94,23 @@ async def on_message(message):
       city = message.content.split('-')[1]
       forecast = get_forecast_today(city)
       date = datetime.fromtimestamp(forecast[0])
-      weather = '__' + city.capitalize() + ' ' + date.strftime("%d.%m.%Y") + ':__'
+      header = '__' + city.capitalize() + ' ' + date.strftime("%d.%m.%Y") + ':__\n'
       now = datetime.now()
       current_time = now.strftime("%H")
       hour = int(current_time)
-
-      while hour < 24:
+      await message.channel.send(header)
+      while hour < 24 :
         date = datetime.fromtimestamp(forecast[1][hour]['time_epoch'])
-        weather += '\n' + date.strftime("%H:%M")
+        weather = '\n' + date.strftime("%H:%M")
         weather += '\n    Lämpötila ' + str(forecast[1][hour]['temp_c'])  + '°C'
         weather += '\n    Tuntuu kuin ' + str(forecast[1][hour]['feelslike_c'])  + '°C'
         weather += '\n    Tuulen nopeus ' + str(round(forecast[1][hour]['wind_kph']/3.6,1)) + 'm/s'
         weather += '\n    Tuulen suunta ' + str(forecast[1][hour]['wind_dir'])
         weather += '\n    Sateen todennäköisyys ' + str(forecast[1][hour]['chance_of_rain']) + '%' 
         weather += '\n    ' + str(forecast[1][hour]['condition']['text']) + '\n'
-        hour += 1
-        print(date)
+        hour += 3
         
-
-      await message.channel.send(weather)
+        await message.channel.send(weather)
 
     if message.content.startswith('$huomenna'):
       city = message.content.split('-')[1]
