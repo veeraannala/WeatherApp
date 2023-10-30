@@ -63,6 +63,7 @@ def get_forecast_today(city):
               ]
   return forecast
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
